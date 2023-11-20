@@ -34,7 +34,7 @@
             <Route path="/workbench/:employeeId" element={<Workbench/>}/>
         )}
 
-        {/* Add other routes as needed */}
+        
         </Routes>
     );
     }
