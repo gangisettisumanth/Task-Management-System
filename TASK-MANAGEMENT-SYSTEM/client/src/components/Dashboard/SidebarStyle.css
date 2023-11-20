@@ -1,0 +1,100 @@
+/* Common styles for all screen sizes */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 4rem;
+    transition: all 300ms ease;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    margin: 20px;
+}
+
+.menu {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+    position: relative;
+    transition: all 300ms ease;
+    border-radius: 0.7rem;
+    font-size: 14px;
+}
+
+.menuItem:hover {
+    cursor: pointer;
+}
+
+.active {
+    background: #FFFFFF;
+    margin-left: 0;
+    color: red;
+}
+
+.active::before {
+    content: "";
+    width: 8px;
+    height: 100%;
+    background: red;
+    margin-right: calc(1rem - 8px);
+}
+
+/* Media queries for different screen sizes */
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .sidebar {
+        padding-top: 2rem;
+    }
+
+    .menu {
+        margin-top: 2rem;
+    }
+
+    .menuItem {
+        margin-left: 1rem;
+    }
+}
+
+/* Tablet */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+    .menuItem {
+        font-size: 16px;
+    }
+}
+
+/* Laptop */
+@media only screen and (min-width: 1025px) and (max-width: 1440px) {
+    .sidebar {
+        padding-top: 3rem;
+    }
+
+    .menuItem {
+        font-size: 18px;
+    }
+}
+
+/* Desktop */
+@media only screen and (min-width: 1441px) {
+    .sidebar {
+        padding-top: 4rem;
+    }
+
+    .menuItem {
+        font-size: 20px;
+    }
+}
