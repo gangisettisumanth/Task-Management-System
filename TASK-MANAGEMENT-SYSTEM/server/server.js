@@ -135,10 +135,10 @@ app.patch('/assigntask/:employeeId', (req, res) => {
 
 
 
-app.delete('/assigntask/:employeeId', (req, res) => {
-    const { employeeId } = req.params;
+app.delete('/assigntask/:taskId', (req, res) => {
+    const { taskId } = req.params;
 
-    db.query('DELETE FROM assigntask WHERE employeeId = ?', [employeeId], (err, result) => {
+    db.query('DELETE FROM assigntask WHERE taskId = ?', [taskId], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             res.status(500).json({ message: 'Error deleting task' });
@@ -147,7 +147,7 @@ app.delete('/assigntask/:employeeId', (req, res) => {
                 // Task deleted successfully
                 res.status(200).json({ message: 'Task deleted successfully' });
             } else {
-                // Task with the given employeeId not found
+                // Task with the given taskId not found
                 res.status(404).json({ message: 'Task not found' });
             }
         }
