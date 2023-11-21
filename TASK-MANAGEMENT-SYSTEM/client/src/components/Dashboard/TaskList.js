@@ -102,12 +102,12 @@ const TaskList = () => {
             });
     };
 
-    const handleDelete = (employeeId) => {
-        axios.delete(`http://localhost:3002/assigntask/${employeeId}`)
+    const handleDelete = (taskId) => {
+        axios.delete(`http://localhost:3002/assigntask/${taskId}`)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log('Delete Task with Employee ID:', employeeId);
-                    setTasks((prevTasks) => prevTasks.filter((task) => task.employeeId !== employeeId));
+                    console.log('Delete Task with Task ID:', taskId);
+                    setTasks((prevTasks) => prevTasks.filter((task) => task.taskId !== taskId));
                 } else {
                     console.error('Error deleting task. Unexpected response:', response);
                 }
@@ -117,6 +117,8 @@ const TaskList = () => {
 
                 if (axios.isAxiosError(error)) {
                     console.error('Axios error details:', error.response);
+                } else {
+                    console.error('Non-Axios error:', error);
                 }
             });
     };
@@ -190,7 +192,7 @@ const TaskList = () => {
                                             <Button
                                                 variant="contained"
                                                 color="error"
-                                                onClick={() => handleDelete(task.employeeId)}
+                                                onClick={() => handleDelete(task.taskId)}
                                                 style={{ margin: '4px' }}
                                             >
                                                 Delete
