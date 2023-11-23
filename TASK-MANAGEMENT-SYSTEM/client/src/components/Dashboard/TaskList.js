@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button, TextField } from '@mui/material';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, Button, TextField, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
 const TaskList = () => {
@@ -15,10 +15,12 @@ const TaskList = () => {
         endDate: '',
         description: '',
     });
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                setLoading(true);
                 const response = await axios.get('http://localhost:3002/assigntask');
                 setTasks(response.data);
             } catch (error) {
@@ -26,6 +28,8 @@ const TaskList = () => {
                 if (error.response) {
                     console.error('Axios error details:', error.response);
                 }
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -72,9 +76,9 @@ const TaskList = () => {
             description,
         };
 
-        axios.patch(`http://localhost:3002/assigntask/${employeeId}`, requestData)
+        axios.patch(`http://localhost:3002/assigntask/${taskId}`, requestData)
             .then((response) => {
-                // Assuming the response.data contains the updated task data from the server
+                
                 setTasks((prevTasks) =>
                     prevTasks.map((prevTask) =>
                         prevTask.employeeId === employeeId ? { ...prevTask, ...response.data } : prevTask
@@ -98,6 +102,10 @@ const TaskList = () => {
 
                 if (axios.isAxiosError(error)) {
                     console.error('Axios error details:', error.response);
+                    
+                } else {
+                    console.error('Non-Axios error:', error);
+                   
                 }
             });
     };
@@ -110,6 +118,7 @@ const TaskList = () => {
                     setTasks((prevTasks) => prevTasks.filter((task) => task.taskId !== taskId));
                 } else {
                     console.error('Error deleting task. Unexpected response:', response);
+                    // Display a user-friendly error message to the user using a notification library or other means
                 }
             })
             .catch((error) => {
@@ -117,8 +126,10 @@ const TaskList = () => {
 
                 if (axios.isAxiosError(error)) {
                     console.error('Axios error details:', error.response);
+                    // Display a user-friendly error message to the user using a notification library or other means
                 } else {
                     console.error('Non-Axios error:', error);
+                    // Display a user-friendly error message to the user using a notification library or other means
                 }
             });
     };
@@ -133,6 +144,7 @@ const TaskList = () => {
     return (
         <div>
             <h2>Task List</h2>
+            {loading && <CircularProgress />}
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
@@ -158,7 +170,7 @@ const TaskList = () => {
                                 <TableCell>{new Date(task.endDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</TableCell>
                                 <TableCell>{task.description}</TableCell>
                                 <TableCell>
-                                    {updatedTaskId === task.employeeId ? (
+                                    {updatedTaskId === task.taskId ? (
                                         <>
                                             {Object.keys(updatedData).map((key) => (
                                                 <TextField
@@ -184,7 +196,7 @@ const TaskList = () => {
                                             <Button
                                                 variant="contained"
                                                 color="primary"
-                                                onClick={() => handleUpdateClick(task.employeeId)}
+                                                onClick={() => handleUpdateClick(task.taskId)}
                                                 style={{ margin: '4px' }}
                                             >
                                                 Update
