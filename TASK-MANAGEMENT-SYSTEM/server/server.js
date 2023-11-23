@@ -111,11 +111,12 @@ app.get('/assigntask', (req, res) => {
 });
 
 
-app.patch('/assigntask/:employeeId', (req, res) => {
-    const { employeeId } = req.params;
+
+app.patch('/assigntask/:taskId', (req, res) => {
+    const { taskId } = req.params;
     const updatedData = req.body;
 
-    db.query('UPDATE assigntask SET ? WHERE employeeId = ?', [updatedData, employeeId], (err, result) => {
+    db.query('UPDATE assigntask SET ? WHERE taskId = ?', [updatedData, taskId], (err, result) => {
         if (err) {
             console.error('Database error:', err);
             res.status(500).json({ message: 'Error updating task' });
@@ -124,12 +125,13 @@ app.patch('/assigntask/:employeeId', (req, res) => {
                 // Task updated successfully
                 res.status(200).json({ message: 'Task updated successfully' });
             } else {
-                // Task with the given employeeId not found
+                // Task with the given taskId not found
                 res.status(404).json({ message: 'Task not found' });
             }
         }
     });
 });
+
 
 
 
